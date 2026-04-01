@@ -1,4 +1,4 @@
-# Pipeline de Surveillance du Risque Boursier — Fortuneo
+# Pipeline de Surveillance du Risque Boursier - Fortuneo
 
 ## Contexte et problématique métier
 
