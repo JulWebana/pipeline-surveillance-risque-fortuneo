@@ -1,6 +1,6 @@
 # Pipeline de Surveillance du Risque Boursier - Fortuneo
 
-## Résumé exécutif
+## Résumé 
 
 Ce projet simule un pipeline complet de surveillance du risque pour un courtier en ligne. Il ingère automatiquement les données boursières du CAC40, calcule des indicateurs techniques avancés, applique un modèle de détection d’anomalies et persiste les résultats dans une base SQL et des fichiers Parquet. Le pipeline est orchestré, monitoré, testé et instrumenté avec MLflow illustrant les missions d’un Data Engineer / MLOps au sein d’un Data Lab moderne.
 
