@@ -35,7 +35,7 @@ Ce pipeline répond directement à cette problématique en automatisant l'ingest
 ```
 
 ### Couche Extract — Ingestion des données
-> Récupération des données historiques OHLCV (Open, High, Low, Close, Volume) des 12 principales actions du CAC40 disponibles sur la plateforme Fortuneo via l'API Yahoo Finance. 
+Récupération des données historiques OHLCV (Open, High, Low, Close, Volume) des 12 principales actions du CAC40 disponibles sur la plateforme Fortuneo via l'API Yahoo Finance. 
 
 ### Couche Transform — Enrichissement
 Calcul des indicateurs techniques de référence pour l'analyse financière : moyennes mobiles (MA 20 et 50 jours), RSI 14 jours, Bandes de Bollinger, volatilité historique annualisée, VaR historique à 99% et amplitude journalière normalisée.
