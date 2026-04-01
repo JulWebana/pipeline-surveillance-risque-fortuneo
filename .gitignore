@@ -54,7 +54,7 @@ htmlcov/
 
 # --- Jupyter Notebooks (outputs) ---
 .ipynb_checkpoints/
-notebooks/*.ipynb
+
 
 # --- Fichiers temporaires ---
 *.tmp
