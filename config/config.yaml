@@ -1,0 +1,122 @@
+# =============================================================================
+# Fichier de configuration central du pipeline ETL - Fortuneo
+# =============================================================================
+# Ce fichier centralise tous les paramètres du pipeline pour faciliter
+# la maintenance et la mise à jour des configurations sans modifier le code.
+
+# --- Paramètres d'extraction des données ---
+extraction:
+  # Liste des symboles boursiers des principales actions disponibles sur Fortuneo
+  # Ces symboles correspondent aux actions du CAC40 les plus échangées par les clients
+  symboles:
+    - "BNP.PA"    # BNP Paribas - Secteur bancaire
+    - "AIR.PA"    # Airbus - Secteur aérospatial
+    - "TTE.PA"    # TotalEnergies - Secteur énergie
+    - "SAN.PA"    # Sanofi - Secteur pharmaceutique
+    - "OR.PA"     # L'Oréal - Secteur consommation
+    - "MC.PA"     # LVMH - Secteur luxe
+    - "CS.PA"     # AXA - Secteur assurance
+    - "DSY.PA"    # Dassault Systèmes - Secteur technologie
+    - "EL.PA"     # EssilorLuxottica - Secteur optique
+    - "DG.PA"     # Vinci - Secteur infrastructure
+    - "KER.PA"    # Kering - Secteur luxe
+    - "STM.PA"    # STMicroelectronics - Secteur semi-conducteurs
+
+  # Période historique des données à extraire (format yfinance : 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y)
+  periode: "1y"
+
+  # Intervalle de temps entre chaque point de données (1d = quotidien)
+  intervalle: "1d"
+
+# --- Paramètres de transformation des données ---
+transformation:
+  # Fenêtre glissante pour le calcul de la moyenne mobile courte (jours)
+  fenetre_ma_courte: 20
+
+  # Fenêtre glissante pour le calcul de la moyenne mobile longue (jours)
+  fenetre_ma_longue: 50
+
+  # Période de calcul du RSI (Relative Strength Index) en jours
+  periode_rsi: 14
+
+  # Fenêtre de calcul de la volatilité historique annualisée (jours)
+  fenetre_volatilite: 30
+
+  # Fenêtre de calcul des Bandes de Bollinger (jours)
+  fenetre_bollinger: 20
+
+  # Nombre d'écarts-types pour les Bandes de Bollinger
+  nb_ecarts_types_bollinger: 2
+
+  # Seuil de détection de valeurs aberrantes par l'écart interquartile (IQR)
+  seuil_iqr: 1.5
+
+# --- Paramètres de chargement des données ---
+chargement:
+  # Chemin vers la base de données SQLite locale (simule une base AWS RDS en production)
+  chemin_base_de_donnees: "data/fortuneo_pipeline.db"
+
+  # Dossier de stockage des fichiers Parquet (simule un bucket AWS S3 en production)
+  dossier_parquet: "data/transformees/"
+
+  # Dossier de stockage des données brutes extraites
+  dossier_brutes: "data/brutes/"
+
+  # Comportement lors du chargement : "replace" écrase, "append" ajoute, "fail" échoue si existe
+  comportement_chargement: "replace"
+
+# --- Paramètres du modèle de détection d'anomalies ---
+modele:
+  # Proportion estimée d'anomalies dans les données boursières (environ 5% d'observations anormales)
+  contamination: 0.05
+
+  # Nombre d'arbres de décision dans la forêt d'isolation (plus élevé = meilleure précision)
+  n_estimateurs: 100
+
+  # Graine aléatoire pour garantir la reproductibilité des résultats
+  graine_aleatoire: 42
+
+  # Chemin de sauvegarde du modèle entraîné (format joblib)
+  chemin_modele: "mlruns/modele_detection_anomalies.pkl"
+
+  # Chemin de sauvegarde du scaler de normalisation des features
+  chemin_scaler: "mlruns/scaler_features.pkl"
+
+  # Fenêtre glissante pour la prédiction (en jours)
+  fenetre_prediction: 5
+
+# --- Paramètres de surveillance (Value at Risk) ---
+risque:
+  # Niveau de confiance pour le calcul de la VaR (99% = niveau réglementaire Bâle III)
+  niveau_confiance_var: 0.99
+
+  # Horizon temporel de la VaR en jours
+  horizon_var: 1
+
+  # Seuil d'alerte pour la VaR journalière (en pourcentage de perte maximale)
+  seuil_alerte_var: 0.03
+
+# --- Paramètres de journalisation (logging) ---
+logging:
+  # Niveau de journalisation : DEBUG, INFO, WARNING, ERROR, CRITICAL
+  niveau: "INFO"
+
+  # Dossier de stockage des fichiers de logs
+  dossier_logs: "logs/"
+
+  # Nom du fichier de log principal
+  fichier_log: "logs/pipeline.log"
+
+  # Taille maximale d'un fichier de log avant rotation (en octets)
+  taille_max_log: 10485760  # 10 Mo
+
+  # Nombre de fichiers de log archivés à conserver
+  nb_fichiers_archives: 5
+
+# --- Paramètres MLflow pour le suivi des expériences ---
+mlflow:
+  # URI de tracking MLflow (local en développement, AWS en production)
+  tracking_uri: "mlruns"
+
+  # Nom de l'expérience MLflow pour organiser les runs
+  nom_experience: "fortuneo_detection_anomalies"

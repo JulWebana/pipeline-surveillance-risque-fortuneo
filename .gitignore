@@ -1,0 +1,62 @@
+# =============================================================================
+# .gitignore — Fichiers et dossiers à exclure du dépôt Git
+# =============================================================================
+
+# --- Environnement Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+*.egg-info/
+dist/
+build/
+
+# --- Données générées par le pipeline (trop volumineuses pour Git) ---
+data/brutes/*.csv
+data/transformees/*.parquet
+data/transformees/*/
+*.db
+*.sqlite
+
+# --- Logs du pipeline (contiennent des informations sensibles) ---
+logs/*.log
+logs/*.log.*
+logs/rapport_pipeline_*.json
+
+# --- Artefacts MLflow (modèles sérialisés) ---
+mlruns/
+
+# --- Fichiers de configuration sensibles (credentials AWS, etc.) ---
+.env
+.env.local
+*.env
+config/credentials.yaml
+config/secrets.yaml
+
+# --- IDE et éditeurs de code ---
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# --- Tests et couverture de code ---
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# --- Jupyter Notebooks (outputs) ---
+.ipynb_checkpoints/
+notebooks/*.ipynb
+
+# --- Fichiers temporaires ---
+*.tmp
+*.bak
+*.orig
