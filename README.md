@@ -6,7 +6,7 @@ Fortuneo, filiale de Crédit Mutuel Arkéa, est l'une des premières banques en 
 
 **Le problème adressé par ce projet** : le Data Lab de Fortuneo doit surveiller en continu les cours des actions les plus échangées par ses clients pour détecter des comportements anormaux de marché (flash crashes, pics de volatilité inhabituels, manipulations de cours) susceptibles d'impacter négativement les portefeuilles clients. Sans détection automatisée, ces événements ne seraient identifiés qu'après coup laissant les clients exposés.
 
-> **Disclaimer** : la problématique décrite ci-dessus est fictive et issue de mon imagination. Ce projet est un exercice personnel réalisé dans le cadre d'une candidature. Il n'est en aucun cas affilié à Fortuneo, ne représente pas les pratiques internes de l'entreprise et n'utilise aucune donnée confidentielle. Les données boursières proviennent exclusivement de l'API publique Yahoo Finance.
+> **Disclaimer** : la problématique décrite ci-dessus est fictive et issue de mon imagination. Ce projet est un exercice personnel. Il n'est en aucun cas affilié à Fortuneo, ne représente pas les pratiques internes de l'entreprise et n'utilise aucune donnée confidentielle. Les données boursières proviennent exclusivement de l'API publique Yahoo Finance.
 
 Ce pipeline répond directement à cette problématique en automatisant l'ingestion, l'enrichissement et l'analyse des données boursières du CAC40 puis en appliquant un modèle de Machine Learning non supervisé pour identifier les séances anormales en quasi-temps réel.
 
@@ -35,7 +35,7 @@ Ce pipeline répond directement à cette problématique en automatisant l'ingest
 ```
 
 ### Couche Extract — Ingestion des données
-Récupération des données historiques OHLCV (Open, High, Low, Close, Volume) des 12 principales actions du CAC40 disponibles sur la plateforme Fortuneo via l'API Yahoo Finance. 
+> Récupération des données historiques OHLCV (Open, High, Low, Close, Volume) des 12 principales actions du CAC40 disponibles sur la plateforme Fortuneo via l'API Yahoo Finance. 
 
 ### Couche Transform — Enrichissement
 Calcul des indicateurs techniques de référence pour l'analyse financière : moyennes mobiles (MA 20 et 50 jours), RSI 14 jours, Bandes de Bollinger, volatilité historique annualisée, VaR historique à 99% et amplitude journalière normalisée.
