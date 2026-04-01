@@ -232,7 +232,6 @@ Ce projet met en pratique un ensemble complet de compétences Data Engineering e
 
 - Simulation d’une architecture Cloud AWS (S3, RDS, Glue, Step Functions)
 
-Ces éléments illustrent la capacité à travailler sur des pipelines industriels et à collaborer avec un Data Lab orienté production
 
 ---
 
