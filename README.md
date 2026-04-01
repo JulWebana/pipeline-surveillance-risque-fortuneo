@@ -4,9 +4,11 @@
 
 Fortuneo, filiale de Crédit Mutuel Arkéa, est l'une des premières banques en ligne françaises. En tant que courtier en ligne, Fortuneo met à disposition de ses clients des milliers de valeurs mobilières cotées sur les marchés financiers européens et internationaux.
 
-**Le problème adressé par ce projet** : le Data Lab de Fortuneo doit surveiller en continu les cours des actions les plus échangées par ses clients pour détecter des comportements anormaux de marché — flash crashes, pics de volatilité inhabituels, manipulations de cours — susceptibles d'impacter négativement les portefeuilles clients. Sans détection automatisée, ces événements ne seraient identifiés qu'après coup, laissant les clients exposés.
+**Le problème adressé par ce projet** : le Data Lab de Fortuneo doit surveiller en continu les cours des actions les plus échangées par ses clients pour détecter des comportements anormaux de marché (flash crashes, pics de volatilité inhabituels, manipulations de cours) susceptibles d'impacter négativement les portefeuilles clients. Sans détection automatisée, ces événements ne seraient identifiés qu'après coup laissant les clients exposés.
 
-Ce pipeline répond directement à cette problématique en automatisant l'ingestion, l'enrichissement et l'analyse des données boursières du CAC40, puis en appliquant un modèle de Machine Learning non supervisé pour identifier les séances anormales en quasi-temps réel.
+> **Disclaimer** : la problématique décrite ci-dessus est fictive et issue de mon imagination. Ce projet est un exercice personnel réalisé dans le cadre d'une candidature. Il n'est en aucun cas affilié à Fortuneo, ne représente pas les pratiques internes de l'entreprise et n'utilise aucune donnée confidentielle. Les données boursières proviennent exclusivement de l'API publique Yahoo Finance.
+
+Ce pipeline répond directement à cette problématique en automatisant l'ingestion, l'enrichissement et l'analyse des données boursières du CAC40 puis en appliquant un modèle de Machine Learning non supervisé pour identifier les séances anormales en quasi-temps réel.
 
 ---
 
@@ -33,16 +35,16 @@ Ce pipeline répond directement à cette problématique en automatisant l'ingest
 ```
 
 ### Couche Extract — Ingestion des données
-Récupération des données historiques OHLCV (Open, High, Low, Close, Volume) des 12 principales actions du CAC40 disponibles sur la plateforme Fortuneo, via l'API Yahoo Finance. En production, cette couche se connecterait aux flux Reuters ou Bloomberg hébergés sur AWS S3.
+Récupération des données historiques OHLCV (Open, High, Low, Close, Volume) des 12 principales actions du CAC40 disponibles sur la plateforme Fortuneo via l'API Yahoo Finance. 
 
 ### Couche Transform — Enrichissement
 Calcul des indicateurs techniques de référence pour l'analyse financière : moyennes mobiles (MA 20 et 50 jours), RSI 14 jours, Bandes de Bollinger, volatilité historique annualisée, VaR historique à 99% et amplitude journalière normalisée.
 
 ### Couche ML — Détection d'anomalies
-Application de l'algorithme Isolation Forest de scikit-learn pour détecter les séances boursières présentant un comportement statistiquement anormal. Les expériences sont tracées dans MLflow (pratique MLOps).
+Application de l'algorithme Isolation Forest de scikit-learn pour détecter les séances boursières présentant un comportement statistiquement anormal. Les expériences sont tracées dans MLflow.
 
 ### Couche Load — Persistance
-Chargement des données transformées et des prédictions en base de données SQLite (simulant AWS RDS) et au format Apache Parquet (simulant AWS S3), avec partitionnement par symbole pour optimiser les requêtes analytiques.
+Chargement des données transformées et des prédictions en base de données SQLite (simulant AWS RDS) et au format Apache Parquet (simulant AWS S3) avec partitionnement par symbole pour optimiser les requêtes analytiques.
 
 ---
 
@@ -112,7 +114,7 @@ pipeline-surveillance-risque-fortuneo/
 ### Installation des dépendances
 
 ```bash
-# Clonage du dépôt
+# Clonage du dépôt (si vous etes intéréssé)
 git clone https://github.com/<votre-compte>/pipeline-surveillance-risque-fortuneo.git
 cd pipeline-surveillance-risque-fortuneo
 
@@ -157,7 +159,7 @@ mlflow ui --backend-store-uri mlruns
 
 **RSI — Relative Strength Index** : oscillateur de momentum mesurant la vitesse et l'amplitude des variations de prix. Un RSI supérieur à 70 signale une zone de surachat, inférieur à 30 une zone de survente.
 
-**Bandes de Bollinger** : encadrent le prix entre une bande haute et une bande basse, définies à ±2 écarts-types autour d'une moyenne mobile de 20 jours. Un cours sortant des bandes indique une volatilité anormalement élevée.
+**Bandes de Bollinger** : encadrent le prix entre une bande haute et une bande basse, définies à + ou -2 écarts-types autour d'une moyenne mobile de 20 jours. Un cours sortant des bandes indique une volatilité anormalement élevée.
 
 **Volatilité historique annualisée** : écart-type des rendements logarithmiques journaliers, multiplié par √252 pour l'annualisation. C'est la mesure de risque de référence en gestion de portefeuille.
 
@@ -167,13 +169,7 @@ mlflow ui --backend-store-uri mlruns
 
 ## Algorithme de détection d'anomalies — Isolation Forest
 
-L'Isolation Forest est un algorithme non supervisé particulièrement adapté à la détection d'anomalies dans des données financières à haute dimensionnalité. Son principe repose sur le fait que les anomalies, étant rares et différentes des observations normales, sont plus faciles à "isoler" en peu de divisions dans un arbre de décision aléatoire.
-
-**Avantages pour Fortuneo :**
-- Ne nécessite pas de données étiquetées (les anomalies passées ne sont pas connues)
-- Efficace sur des données à grande dimension (nombreux indicateurs calculés)
-- Temps d'inférence rapide pour une détection en quasi-temps réel
-- Paramètre de contamination ajustable selon le niveau de tolérance au risque
+L'Isolation Forest est un algorithme non supervisé particulièrement adapté à la détection d'anomalies dans des données financières à haute dimensionnalité. Son principe repose sur le fait que les anomalies étant rares et différentes des observations normales sont plus faciles à "isoler" en peu de divisions dans un arbre de décision aléatoire.
 
 **Paramètres configurables dans `config/config.yaml` :**
 - `contamination` : proportion attendue d'anomalies (défaut : 5%)
@@ -184,17 +180,15 @@ L'Isolation Forest est un algorithme non supervisé particulièrement adapté à
 
 ## Pratiques MLOps implémentées
 
-Ce projet illustre les bonnes pratiques MLOps demandées dans l'offre Fortuneo :
-
 **Traçabilité des expériences** : chaque entraînement du modèle est enregistré dans MLflow avec ses hyperparamètres, ses métriques et ses artefacts (modèle sérialisé, scaler).
 
-**Versioning du modèle** : le modèle entraîné est sauvegardé avec joblib et peut être rechargé lors des exécutions suivantes, évitant un ré-entraînement inutile.
+**Versioning du modèle** : le modèle entraîné est sauvegardé avec joblib et peut être rechargé lors des exécutions suivantes évitant un ré-entraînement inutile.
 
 **Monitoring du pipeline** : chaque exécution génère un rapport JSON horodaté contenant les métriques de performance de chaque étape (durée, nombre de lignes, taux de complétude, alertes).
 
-**Configuration externalisée** : tous les hyperparamètres et paramètres du pipeline sont centralisés dans un fichier YAML, conformément au principe de séparation code/configuration.
+**Configuration externalisée** : tous les hyperparamètres et paramètres du pipeline sont centralisés dans un fichier YAML conformément au principe de séparation code/configuration.
 
-**Tests unitaires** : chaque module dispose de tests unitaires avec pytest, couvrant les cas nominaux et les cas limites.
+**Tests unitaires** : chaque module dispose de tests unitaires avec pytest couvrant les cas nominaux et les cas limites.
 
 ---
 
@@ -211,7 +205,7 @@ Après une exécution complète, le pipeline produit les fichiers suivants :
 
 ---
 
-## Améliorations envisageables pour la mise en production
+## Propositions d' améliorations pour la mise en production
 
 - Remplacer SQLite par une instance AWS RDS PostgreSQL Multi-AZ
 - Remplacer les fichiers locaux par un bucket AWS S3 avec AWS Glue Catalog
@@ -225,4 +219,4 @@ Après une exécution complète, le pipeline produit les fichiers suivants :
 
 ## Auteur
 
-Projet réalisé dans le cadre d'une candidature au poste de **Data Engineer — Alternance** au sein du Data Lab de Fortuneo (département Data & Clients).
+Projet réalisé par Julien AGA - Étudiant Data Engineer / Cloud / MLOps
