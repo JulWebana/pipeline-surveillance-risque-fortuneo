@@ -1,5 +1,10 @@
 # Pipeline de Surveillance du Risque Boursier - Fortuneo
 
+## Résumé exécutif
+
+Ce projet simule un pipeline complet de surveillance du risque pour un courtier en ligne. Il ingère automatiquement les données boursières du CAC40, calcule des indicateurs techniques avancés, applique un modèle de détection d’anomalies et persiste les résultats dans une base SQL et des fichiers Parquet. Le pipeline est orchestré, monitoré, testé et instrumenté avec MLflow illustrant les missions d’un Data Engineer / MLOps au sein d’un Data Lab moderne.
+
+
 ## Contexte et problématique métier
 
 Fortuneo, filiale de Crédit Mutuel Arkéa, est l'une des premières banques en ligne françaises. En tant que courtier en ligne, Fortuneo met à disposition de ses clients des milliers de valeurs mobilières cotées sur les marchés financiers européens et internationaux.
@@ -204,6 +209,30 @@ Après une exécution complète, le pipeline produit les fichiers suivants :
 - `logs/rapport_pipeline_<run_id>.json` : rapport JSON du monitoring du run
 - `logs/pipeline.log` : fichier de log complet du pipeline
 - `mlruns/` : artefacts MLflow (modèle, scaler, métriques d'entraînement)
+
+---
+
+## Compétences démontrées
+
+Ce projet met en pratique un ensemble complet de compétences Data Engineering et MLOps :
+
+- Construction d’un pipeline ETL structuré (Extract → Transform → Load)
+
+- Calcul d’indicateurs financiers avancés utilisés en analyse de marché
+
+- Détection d’anomalies via Isolation Forest (Machine Learning non supervisé)
+
+- Structuration d’un projet Data Engineering modulaire et maintenable
+
+- Mise en place de pratiques MLOps : MLflow, versioning, monitoring, tests
+
+- Gestion de configuration externalisée (YAML)
+
+- Logging avancé et génération de rapports d’exécution
+
+- Simulation d’une architecture Cloud AWS (S3, RDS, Glue, Step Functions)
+
+Ces éléments illustrent la capacité à travailler sur des pipelines industriels et à collaborer avec un Data Lab orienté production
 
 ---
 
