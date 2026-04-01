@@ -34,16 +34,16 @@ Ce pipeline répond directement à cette problématique en automatisant l'ingest
    [Simulation locale]               [Simulation locale Parquet]
 ```
 
-### Couche Extract — Ingestion des données
+### Couche Extract - Ingestion des données
 Récupération des données historiques OHLCV (Open, High, Low, Close, Volume) des 12 principales actions du CAC40 disponibles sur la plateforme Fortuneo via l'API Yahoo Finance. 
 
-### Couche Transform — Enrichissement
+### Couche Transform - Enrichissement
 Calcul des indicateurs techniques de référence pour l'analyse financière : moyennes mobiles (MA 20 et 50 jours), RSI 14 jours, Bandes de Bollinger, volatilité historique annualisée, VaR historique à 99% et amplitude journalière normalisée.
 
-### Couche ML — Détection d'anomalies
+### Couche ML - Détection d'anomalies
 Application de l'algorithme Isolation Forest de scikit-learn pour détecter les séances boursières présentant un comportement statistiquement anormal. Les expériences sont tracées dans MLflow.
 
-### Couche Load — Persistance
+### Couche Load - Persistance
 Chargement des données transformées et des prédictions en base de données SQLite (simulant AWS RDS) et au format Apache Parquet (simulant AWS S3) avec partitionnement par symbole pour optimiser les requêtes analytiques.
 
 ---
@@ -105,6 +105,8 @@ pipeline-surveillance-risque-fortuneo/
 
 ## Installation et lancement
 
+Si vous êtes intéressé... :)
+
 ### Prérequis
 
 - Python 3.10 ou supérieur
@@ -114,7 +116,7 @@ pipeline-surveillance-risque-fortuneo/
 ### Installation des dépendances
 
 ```bash
-# Clonage du dépôt (si vous etes intéréssé)
+# Clonage du dépôt 
 git clone https://github.com/<votre-compte>/pipeline-surveillance-risque-fortuneo.git
 cd pipeline-surveillance-risque-fortuneo
 
