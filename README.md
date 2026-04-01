@@ -169,7 +169,7 @@ mlflow ui --backend-store-uri mlruns
 
 ---
 
-## Algorithme de détection d'anomalies — Isolation Forest
+## Algorithme de détection d'anomalies - Isolation Forest
 
 L'Isolation Forest est un algorithme non supervisé particulièrement adapté à la détection d'anomalies dans des données financières à haute dimensionnalité. Son principe repose sur le fait que les anomalies étant rares et différentes des observations normales sont plus faciles à "isoler" en peu de divisions dans un arbre de décision aléatoire.
 
@@ -207,7 +207,7 @@ Après une exécution complète, le pipeline produit les fichiers suivants :
 
 ---
 
-## Propositions d' améliorations pour la mise en production
+## Propositions d'améliorations pour la mise en production
 
 - Remplacer SQLite par une instance AWS RDS PostgreSQL Multi-AZ
 - Remplacer les fichiers locaux par un bucket AWS S3 avec AWS Glue Catalog
